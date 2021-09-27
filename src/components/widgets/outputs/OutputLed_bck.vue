@@ -11,13 +11,13 @@
       {{ led.prettyName }}
     </v-col>
     <v-col class="ml-auto py-0 text-right">
-        <app-color-picker
-          :primary="primaryColor"
-          :white="whiteColor"
-          @change="handleColorChange"
-          dot
-        >
-        </app-color-picker>
+      <app-color-picker
+        :primary="primaryColor"
+        :white="whiteColor"
+        @change="handleColorChange"
+        dot
+      >
+      </app-color-picker>
     </v-col>
   </v-row>
 </template>
@@ -34,14 +34,14 @@ export default class OutputLed extends Mixins(StateMixin) {
 
   get primaryColor () {
     const vals = this.convertTo(this.led.color_data[0])
-    const c = new IroColor({ r: vals.w, b: vals.w, g: vals.w })
+    const c = new IroColor(vals)
     return c.hexString
   }
 
   get whiteColor () {
     const vals = this.convertTo(this.led.color_data[0])
     if (!vals.w) return undefined
-    const c = new IroColor({ r: vals.w, b: vals.w, g: vals.w })
+    const c = new IroColor({ r: vals.w, g: vals.w, b: vals.w })
     return c.hexString
   }
 
@@ -64,7 +64,7 @@ export default class OutputLed extends Mixins(StateMixin) {
       newVals.b = currentVals.B
     }
 
-    const map: { [index: string]: string } = { r: 'RED', b: 'GREEN', g: 'BLUE', w: 'WHITE' }
+    const map: { [index: string]: string } = { r: 'RED', g: 'GREEN', b: 'BLUE', w: 'WHITE' }
     let s = `SET_LED LED=${this.led.name}`
 
     Object.keys(newVals).forEach((key) => {
